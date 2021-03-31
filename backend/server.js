@@ -4,8 +4,10 @@ var cors = require("cors");
 const connectDB = require("./config/db");
 const PORT = process.env.PORT || 8000;
 
+const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const productCategoryRoutes = require("./routes/productCategoryRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 connectDB();
 
@@ -32,8 +34,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/productCategory", productCategoryRoutes);
+app.use("/api/v1/order", orderRoutes);
 
 // app.use((req, res, next) => {
 //   res.status(404).json({

@@ -6,10 +6,6 @@ const {
 
 const getProducts = async (req, res, next) => {
   try {
-    // await Product.find().populate('category') // This will also populate category along with product
-
-    // await Product.find({category: catId}).populate('category'); //conditional find statement
-
     ProductModel.find()
       .then((result) => {
         res.status(200).json(result);

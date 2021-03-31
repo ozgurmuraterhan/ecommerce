@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const productCategoryController = require("../controller/productCategoryControllers");
+const productCategoryController = require("../controllers/productCategoryController");
 
 //@desc   GET all productCategories from db
 //@route  GET /api/v1/productCategory
