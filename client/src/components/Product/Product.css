@@ -1,0 +1,110 @@
+.product {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.product:hover {
+}
+
+.product .product__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  min-width: 225px;
+  min-height: 430px;
+  max-height: 650px;
+  width: 100%;
+  padding: 0rem 0rem 2rem 0rem;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
+}
+
+.product .product__info .product__info__picture {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product .product__info .product__info__picture a img {
+  max-width: 100%;
+  width: 300px;
+  height: 300px;
+  margin-bottom: 0.5rem;
+}
+
+.product .product__info .product__info__details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  padding: 0px 1.5rem 2px 1.5rem;
+  width: 100%;
+}
+
+.product .product__info .product__info__details .product__info__name {
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.product .product__info .product__info__details .product__info__name a h3 {
+  color: rgba(21, 116, 237, 0.8);
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product .product__info .product__info__details .product__info__category {
+  margin: 5px 0 10px;
+  font-size: 0.75rem;
+  font-weight: 100;
+  color: #b6c0c2;
+}
+
+.product .product__info .product__info__details .product__info__price {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 24px;
+  color: #7b8ca0;
+}
+
+.product
+  .product__info
+  .product__info__details
+  .product__info__price
+  span.product__info__price__dollar {
+  font-size: 0.8rem;
+  vertical-align: text-top;
+}
+
+@media screen and (min-width: 576px) {
+  .product {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .product {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .product {
+    width: 33%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .product {
+    width: 25%;
+  }
+}

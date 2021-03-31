@@ -1,0 +1,113 @@
+.navbar {
+  width: 100%;
+  height: 110px;
+  background-color: rgba(21, 116, 237, 0.8);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  z-index: 50;
+}
+
+.navbar .navbar__logo a {
+  text-decoration: none;
+}
+
+.navbar .navbar__logo h2 {
+  color: #f4f4f4;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.navbar .navbar__links {
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+
+.navbar .navbar__links > li {
+  padding-left: 1.5rem;
+}
+
+.navbar .navbar__links > li > a {
+  text-decoration: none;
+  color: #f4f4f4;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .navbar__links > li > a > span {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.navbar .cart__link {
+  background-color: rgba(21, 116, 237, 0.3);
+  padding: 10px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.navbar .cart__link:hover {
+  background-color: rgba(21, 116, 237, 0.8);
+  color: #f4f4f4;
+}
+
+.navbar .cartlogo__badge {
+  width: 30px;
+  height: 30px;
+  background-color: #f4f4f4;
+  margin-left: 8px;
+  color: rgba(21, 116, 237, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1rem;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+.navbar .hamburger__menu {
+  width: 30px;
+  height: 30px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.navbar .hamburger__menu > div {
+  width: 100%;
+  height: 3px;
+  background-color: #f4f4f4;
+}
+
+.navbar .hamburger__menu:hover > div {
+  background-color: rgba(21, 116, 237, 0.8);
+}
+
+@media (max-width: 960px) {
+  .navbar .navbar__links {
+    display: none;
+  }
+
+  .navbar .hamburger__menu {
+    display: flex;
+  }
+}
+
+@media (max-width: 500px) {
+  .navbar .navbar__logo h2 {
+    font-size: 1rem;
+  }
+}
