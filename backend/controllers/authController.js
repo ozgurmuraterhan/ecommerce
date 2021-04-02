@@ -3,95 +3,110 @@ const jwt = require("jsonwebtoken");
 
 const UserModel = require("../models/User");
 
-const signup = (req, res, next) => {
-  // 1 - get username - password
-  const username = req.body.username;
-  const password = req.body.password;
+const {
+  validateCreateUser,
+  validateLoginUser,
+} = require("../shared/validator/UserValidator");
 
-  // 2 - check username for repeat it
-  UserModel.find({ username: username }).then((user) => {
-    if (user.length >= 1) {
+const register = async (req, res, next) => {
+  try {
+    const { error } = validateCreateUser(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.message });
+    }
+
+    // 1 - get username - password
+    const username = req.body.username;
+    const password = req.body.password;
+    const role = req.body.role;
+    const avatar = req.file.path;
+
+    // 2 - check username for repeat it
+    let user = await UserModel.findOne({ username: username });
+    if (user) {
       return res.status(409).json({
-        msg: "User Exists!",
-      });
-    } else {
-      bcrypt.hash(password, 12, (err, hash) => {
-        if (err) {
-          return res.status(500).json({
-            error: err,
-          });
-        } else {
-          // 3 - create user
-          const user = new UserModel({
-            username: username,
-            password: hash,
-          });
-          user
-            .save()
-            .then((result) => {
-              console.log(result);
-              res.status(201).json({
-                message: "User Created",
-              });
-            })
-            .catch((error) => {
-              console.log(error);
-              res.status(500).json({
-                error: error,
-              });
-            });
-        }
-      });
-    }
-  });
-};
-
-const login = (req, res, next) => {
-  // 1 - get username and password
-  const username = req.body.username;
-  const password = req.body.password;
-
-  // 2 - is exist user?
-  UserModel.find({ username: username }).then((user) => {
-    if (user.length < 1) {
-      return res.status(401).json({
-        error: "Auth failed",
+        message: "User Exists!",
       });
     }
 
-    // 3 - if user exist, check for is correct passsword
-    bcrypt.compare(password, user[0].password, (err, result) => {
-      if (err) {
-        return res.status(401).json({
-          error: "Auth failed",
-        });
-      } else if (result) {
-        // 4 - login
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-        const token = jwt.sign(
-          {
-            username: user[0].username,
-            userId: user[0]._id,
-          },
-          "secret_Private_Key",
-          { expiresIn: "1h" }
-        );
-
-        return res.status(200).json({
-          message: "Login Successful",
-          user: {
-            username: username,
-          },
-          token: token,
-        });
-      } else {
-        res.status(401).json({
-          error: "Auth failed",
-        });
-      }
+    // 3 - create user
+    const newUser = new UserModel({
+      username: username,
+      password: hashedPassword,
+      role: role,
+      avatar: avatar,
     });
-  });
+
+    await newUser.save();
+
+    const token = await newUser.generateAuthToken();
+
+    return res
+      .header("Access-Control-Expose-headers", "x-auth-token")
+      .header("x-auth-token", token)
+      .status(200)
+      .json({
+        message: "User registered successfully :D",
+        user: {
+          username: username,
+        },
+        token: token,
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: `server error -> ${error}`,
+    });
+  }
 };
 
-exports.signup = signup;
+const login = async (req, res, next) => {
+  try {
+    const { error } = validateLoginUser(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.message });
+    }
+
+    // 1 - get username and password
+    const username = req.body.username;
+    const password = req.body.password;
+
+    // 2 - is exist user?
+    let user = await UserModel.findOne({ username: username });
+    if (!user) {
+      return res.status(400).json({ message: "User not found !!!" });
+    }
+
+    // 3 - if user exist, check for is correct password
+    const result = await bcrypt.compare(password, user.password);
+    if (!result) {
+      return res.status(400).json({ message: "User not found !!!" });
+    }
+
+    // 4 - login
+    const token = await user.generateAuthToken();
+
+    return res
+      .header("Access-Control-Expose-headers", "x-auth-token")
+      .header("x-auth-token", token)
+      .status(200)
+      .json({
+        message: "Login Successful",
+        user: {
+          username: username,
+        },
+        token: token,
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: `server error -> ${error}`,
+    });
+  }
+};
+
+exports.register = register;
 exports.login = login;

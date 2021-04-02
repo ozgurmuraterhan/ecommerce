@@ -2,10 +2,7 @@ const path = require("path");
 const router = require("express").Router();
 const multer = require("multer");
 
-const checkAuth = require("../shared/middleware/check-auth");
-
 const authController = require("../controllers/authController");
-const userController = require("../controllers/userController");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -31,12 +28,8 @@ const upload = multer({
   },
 }).single("avatar");
 
-router.get("/", userController.getUsers);
+router.post("/register", upload, authController.register);
 
-router.get("/:id", userController.getUserById);
-
-router.post("/", upload, userController.addUser);
-
-router.delete("/:id", userController.deleteUser);
+router.post("/login", authController.login);
 
 module.exports = router;

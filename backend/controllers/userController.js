@@ -51,6 +51,7 @@ const addUser = (req, res, next) => {
     // 1 - get username - password - avatar
     const username = req.body.username;
     const password = req.body.password;
+    const role = req.body.role;
     const avatar = req.file.path;
 
     // 2 - check username for repeat it
@@ -75,6 +76,7 @@ const addUser = (req, res, next) => {
             const user = new UserModel({
               username: username,
               password: hash,
+              role: role,
               avatar: avatar,
             });
             user
@@ -136,7 +138,7 @@ const deleteUser = (req, res, next) => {
     const id = req.params.id;
     UserModel.remove({ _id: id })
       .then((result) => {
-        // TODO : DELETE PRODUCT PICTURE
+        // TODO : DELETE USER AVATAR
         res.status(200).json(result);
       })
       .catch((error) => {
