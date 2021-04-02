@@ -1,17 +1,9 @@
 import { useState, useCallback } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { AuthContext } from "./shared/context/auth-context";
+import { AuthContext } from "./context/auth-context";
 
-// Pages
-// import HomePage from "./pages/Home/HomePage";
-// import Register from "./pages/Auth/Register/index";
-// import Login from "./pages/Auth/Login/index";
-// import ProductPage from "./pages/Product/ProductPage";
-// import CartPage from "./pages/Cart/CartPage";
-// import PageNotFound from "./pages/PageNotFound/PageNotFound";
-// import routes from "./shared/config/Routes/routes";
-import routes from "./shared/config/Routes/routes";
+import routes from "./_helpers/Routes/routes";
 
 // Components
 import Navbar from "./components/Navbar/Navbar";
