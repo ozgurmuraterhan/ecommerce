@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 // Components
-import CartItem from "../../components/Cart/CartItem";
+import CartItem from "@Components/Cart/CartItem";
 
 // Actions
-import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
+import { addToCart, removeFromCart } from "@Redux/actions/cartActions";
 
 import "./CartPage.css";
 

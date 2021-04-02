@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // Components
-import ProductItem from "../../components/Product/ProductItem";
+import ProductItem from "@Components/Product/ProductItem";
 
 // Actions
-import { getProducts as productsList } from "../../redux/actions/productActions";
+import { getProducts as productsList } from "@Redux/actions/productActions";
 
 // Styles
 import "./HomePage.css";

@@ -1,14 +1,14 @@
 import { useState, useCallback } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { AuthContext } from "./context/auth-context";
+import { AuthContext } from "@Context/auth-context";
 
-import routes from "./_helpers/Routes/routes";
+import routes from "@Helpers/Routes/routes";
 
 // Components
-import Navbar from "./components/Navbar/Navbar";
-import Backdrop from "./components/Backdrop/Backdrop";
-import SideDrawer from "./components/SideDrawer/SideDrawer";
+import Navbar from "@Components/Navbar/Navbar";
+import Backdrop from "@Components/Backdrop/Backdrop";
+import SideDrawer from "@Components/SideDrawer/SideDrawer";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -44,12 +44,6 @@ function App() {
 
         <main>
           <Switch>
-            {/* <Route path="/" component={HomePage} exact />
-            <Route path="/Register" component={Register} exact />
-            <Route path="/Login" component={Login} exact />
-            <Route path="/product/:id" component={ProductPage} exact />
-            <Route path="/cart" component={CartPage} exact />
-            <Route path="/*" component={PageNotFound} exact /> */}
             {routes.map((route) => (
               <Route
                 key={route.path}

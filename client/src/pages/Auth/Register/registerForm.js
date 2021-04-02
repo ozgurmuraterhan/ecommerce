@@ -5,7 +5,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import Thumb from "../../../_helpers/Images/ImageUpload/Thumb";
+import Thumb from "@Helpers/Images/ImageUpload/Thumb";
 
 export const RegisterForm = ({ user, btnRef, registerUser }) => {
   // Validation schema

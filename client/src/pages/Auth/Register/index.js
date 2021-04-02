@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { useFormik } from "formik";
 import { RegisterForm } from "./registerForm";
 
 const initUser = {
@@ -18,6 +17,7 @@ const Register = () => {
     if (token) {
       history.replace("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const registerUser = (values) => {

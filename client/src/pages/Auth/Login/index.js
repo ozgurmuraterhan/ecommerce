@@ -16,6 +16,7 @@ const Login = (props) => {
     if (token) {
       history.replace("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loginUser = async (values) => {
