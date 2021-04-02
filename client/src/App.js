@@ -21,7 +21,7 @@ function App() {
     setIsLoggedIn(false);
   }, []);
 
-  const [sideDrawerToggle, setSideDrawerToogle] = useState(false);
+  const [sideDrawerToggle, setSideDrawerToggle] = useState(false);
 
   return (
     <AuthContext.Provider
@@ -32,14 +32,14 @@ function App() {
       }}
     >
       <Router>
-        <Navbar click={() => setSideDrawerToogle(true)} />
+        <Navbar click={() => setSideDrawerToggle(true)} />
         <SideDrawer
           show={sideDrawerToggle}
-          click={() => setSideDrawerToogle(false)}
+          click={() => setSideDrawerToggle(false)}
         />
         <Backdrop
           show={sideDrawerToggle}
-          click={() => setSideDrawerToogle(false)}
+          click={() => setSideDrawerToggle(false)}
         />
 
         <main>
