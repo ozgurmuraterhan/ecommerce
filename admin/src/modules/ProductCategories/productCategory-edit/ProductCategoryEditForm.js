@@ -1,35 +1,29 @@
-// Form is based on Formik
-// Data validation is based on Yup
-// Please, be familiar with article first:
-// https://hackernoon.com/react-form-validation-with-formik-and-yup-8b76bda62e10
 import React from "react";
-// import { useSelector } from "react-redux";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Row, Col } from "react-bootstrap";
 import url from "@Helpers/api/url.json";
-// import Dropzone from "react-dropzone";
-// import { useDropzone } from 'react-dropzone'
-// import Thumb from '../../../../../_helpers/Images/Thumb';
-// import { Input, Select } from "../../../../../../_metronic/_partials/controls";
-// import { MyCheckbox } from "../../../../../_helpers/Formik/Mui_Checkbox";
-// import FormikReactSelect from "../../../../../_helpers/Formik/FormikReactSelect";
-// import config from "../../../../../_services/config.json";
-// import Thumb from "@Helpers/Images/ImageUpload/Thumb";
+import {
+  InputText,
+  InputTextArea,
+  InputNumber,
+  FormikReactSelect,
+  InputTrueFalse,
+} from "@Helpers/Formik";
+import Thumb from "@Helpers/Images/ImageUpload/Thumb";
 
 export const ProductCategoryEditForm = ({
-  actionsLoading,
   productCategory,
   btnRef,
   saveProductCategory,
 }) => {
   let InitialValues;
   if (productCategory) {
-    // Initial Values
     InitialValues = {
       id: productCategory._id,
       name: productCategory.name,
       description: productCategory.description,
+      isPublished: productCategory.isPublished,
       preImages: productCategory.pictureUrl,
       pictureUrl: null,
     };
@@ -38,11 +32,11 @@ export const ProductCategoryEditForm = ({
       id: undefined,
       name: "",
       description: "",
+      isPublished: false,
       pictureUrl: null,
     };
   }
 
-  // Validation schema
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, "minimum 3 character")
@@ -59,7 +53,6 @@ export const ProductCategoryEditForm = ({
       <Formik
         enableReinitialize={true}
         initialValues={InitialValues}
-        // initialValues={productCategory}
         validationSchema={validationSchema}
         onSubmit={(values) => {
           saveProductCategory(values);
@@ -72,6 +65,9 @@ export const ProductCategoryEditForm = ({
           handleSubmit,
           setFieldValue,
           setFieldTouched,
+          status,
+          touched,
+          handleBlur,
         }) => (
           <Form className="form form-label-right">
             <Row>
@@ -92,14 +88,20 @@ export const ProductCategoryEditForm = ({
                     </Row>
                   </React.Fragment>
                 ) : (
-                  <p>عکسی برای محصول انتخاب نشده است.</p>
+                  <p>عکسی برای دسته بندی انتخاب نشده است.</p>
                 )}
               </Col>
             </Row>
 
             <Row className="mt-3">
               <Col>
-                <div className="form-group">
+                <InputText
+                  name="name"
+                  label="Name"
+                  touched={touched}
+                  errors={errors}
+                />
+                {/* <div className="form-group">
                   <label>Name : </label>
                   <Field
                     name="name"
@@ -107,20 +109,28 @@ export const ProductCategoryEditForm = ({
                     label="productCategory name"
                     className="form-control"
                   />
-                </div>
+                </div> */}
               </Col>
             </Row>
 
             <Row className="mt-3">
               <Col>
-                <div className="form-group">
+                <InputTextArea
+                  name="description"
+                  label="Description"
+                  touched={touched}
+                  errors={errors}
+                  rows={3}
+                  cols={10}
+                />
+                {/* <div className="form-group">
                   <label>Description : </label>
                   <Field
                     name="description"
                     as="textarea"
                     className="form-control"
                   />
-                </div>
+                </div> */}
               </Col>
             </Row>
 
@@ -150,7 +160,20 @@ export const ProductCategoryEditForm = ({
             </Row>
 
             <Row className="mt-3">
-              <Col>{/* <Thumb file={values.pictureUrl} /> */}</Col>
+              <Col>
+                <Thumb file={values.pictureUrl} />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <InputTrueFalse
+                  name="isPublished"
+                  label="is Published"
+                  touched={touched}
+                  errors={errors}
+                />
+              </Col>
             </Row>
 
             <button

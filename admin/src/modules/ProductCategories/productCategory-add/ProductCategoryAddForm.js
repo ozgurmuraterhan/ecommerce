@@ -1,33 +1,22 @@
 import React from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Row, Col } from "react-bootstrap";
-
-// import Thumb from "@Helpers/Images/ImageUpload/Thumb";
+import { InputText, InputTextArea, InputTrueFalse } from "@Helpers/Formik";
+import Thumb from "@Helpers/Images/ImageUpload/Thumb";
 
 export const ProductCategoryAddForm = ({
-  actionsLoading,
   productCategory,
   btnRef,
   saveProductCategory,
 }) => {
-  let InitialValues;
-  if (productCategory) {
-    // Initial Values
-    InitialValues = {
-      name: productCategory.name,
-      description: productCategory.description,
-      pictureUrl: null,
-    };
-  } else {
-    InitialValues = {
-      name: "",
-      description: "",
-      pictureUrl: null,
-    };
-  }
+  const InitialValues = {
+    name: "",
+    description: "",
+    isPublished: false,
+    pictureUrl: null,
+  };
 
-  // Validation schema
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, "minimum 3 character")
@@ -44,7 +33,6 @@ export const ProductCategoryAddForm = ({
       <Formik
         enableReinitialize={true}
         initialValues={InitialValues}
-        // initialValues={productCategory}
         validationSchema={validationSchema}
         onSubmit={(values) => {
           saveProductCategory(values);
@@ -57,32 +45,32 @@ export const ProductCategoryAddForm = ({
           handleSubmit,
           setFieldValue,
           setFieldTouched,
+          status,
+          touched,
+          handleBlur,
         }) => (
           <Form className="form form-label-right">
             <Row className="mt-3">
               <Col>
-                <div className="form-group">
-                  <label>Name : </label>
-                  <Field
-                    name="name"
-                    placeholder="productCategory name"
-                    label="productCategory name"
-                    className="form-control"
-                  />
-                </div>
+                <InputText
+                  name="name"
+                  label="Name"
+                  touched={touched}
+                  errors={errors}
+                />
               </Col>
             </Row>
 
             <Row className="mt-3">
               <Col>
-                <div className="form-group">
-                  <label>Description : </label>
-                  <Field
-                    name="description"
-                    as="textarea"
-                    className="form-control"
-                  />
-                </div>
+                <InputTextArea
+                  name="description"
+                  label="Description"
+                  touched={touched}
+                  errors={errors}
+                  rows={3}
+                  cols={10}
+                />
               </Col>
             </Row>
 
@@ -112,7 +100,20 @@ export const ProductCategoryAddForm = ({
             </Row>
 
             <Row className="mt-3">
-              <Col>{/* <Thumb file={values.pictureUrl} /> */}</Col>
+              <Col>
+                <Thumb file={values.pictureUrl} />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <InputTrueFalse
+                  name="isPublished"
+                  label="is Published"
+                  touched={touched}
+                  errors={errors}
+                />
+              </Col>
             </Row>
 
             <button

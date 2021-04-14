@@ -31,11 +31,6 @@ export const ProductCategoryDetailsItem = ({
                 <Link to={`/productCategory/${productCategoryForDetails?.id}`}>
                   <Card.Title>{productCategoryForDetails?.name}</Card.Title>
                 </Link>
-                <Link
-                  to={`/productCategoryCategory/${productCategoryForDetails?.id}`}
-                >
-                  <Card.Text className="text-muted">{`${productCategoryForDetails?.category?.name}`}</Card.Text>
-                </Link>
                 <Card.Text>{productCategoryForDetails?.description}</Card.Text>
               </Card.Body>
               <Card.Body>

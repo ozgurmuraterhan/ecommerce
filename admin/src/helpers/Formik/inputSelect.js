@@ -1,9 +1,17 @@
 import React from "react";
 import { Field } from "formik";
 
-export const InputSelect = ({ name, touched, errors, multiple, children }) => {
+export const InputSelect = ({
+  name,
+  label,
+  touched,
+  errors,
+  multiple,
+  children,
+}) => {
   return (
-    <React.Fragment>
+    <div className="form-group">
+      <label htmlFor={name}>{label}</label>
       <Field
         name={name}
         className={
@@ -19,6 +27,6 @@ export const InputSelect = ({ name, touched, errors, multiple, children }) => {
       {touched[name] && errors[name] ? (
         <div className="invalid-feedback">{errors[name]}</div>
       ) : null}
-    </React.Fragment>
+    </div>
   );
 };

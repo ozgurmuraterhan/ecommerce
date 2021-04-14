@@ -1,4 +1,3 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { shallowEqual, useSelector } from "react-redux";
@@ -10,6 +9,7 @@ const initProductCategory = {
   id: undefined,
   name: "",
   description: "",
+  isPublished: false,
   pictureUrl: null,
 };
 
@@ -20,7 +20,6 @@ export function ProductCategoryEdit({
   },
 }) {
   const dispatch = useDispatch();
-  // const layoutDispatch = useContext(LayoutContext.Dispatch);
   const { actionsLoading, productCategoryForEdit } = useSelector(
     (state) => ({
       actionsLoading: state.productCategories.actionsLoading,
@@ -39,7 +38,6 @@ export function ProductCategoryEdit({
   }, [id, dispatch]);
 
   const saveProductCategory = (values) => {
-    // console.log('debug ::: productCategoryEdit_saveProductCategory_values ::: ', values);
     if (!id) {
       backToProductCategoriesList();
     } else {
@@ -47,7 +45,7 @@ export function ProductCategoryEdit({
       formData.append("id", values.id);
       formData.append("name", values.name);
       formData.append("description", values.description);
-      formData.append("isPublished", true);
+      formData.append("isPublished", values.isPublished);
 
       if (
         values.pictureUrl &&
@@ -105,7 +103,6 @@ export function ProductCategoryEdit({
                 </Row>
               ) : (
                 <ProductCategoryEditForm
-                  actionsLoading={actionsLoading}
                   productCategory={
                     productCategoryForEdit || initProductCategory
                   }

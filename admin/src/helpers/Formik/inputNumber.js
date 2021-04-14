@@ -1,7 +1,7 @@
 import React from "react";
 import { Field } from "formik";
 
-export const InputTextArea = ({ name, label, touched, errors, rows, cols }) => {
+export const InputNumber = ({ name, label, touched, errors }) => {
   return (
     <div className="form-group">
       <label htmlFor={name}>{label}</label>
@@ -12,9 +12,7 @@ export const InputTextArea = ({ name, label, touched, errors, rows, cols }) => {
             ? "form-control is-invalid"
             : "form-control"
         }
-        as="textarea"
-        rows={rows}
-        cols={cols}
+        type="number"
       />
       {touched[name] && errors[name] ? (
         <div className="invalid-feedback">{errors[name]}</div>

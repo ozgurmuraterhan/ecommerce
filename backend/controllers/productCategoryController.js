@@ -7,12 +7,22 @@ const {
 
 const getProductCategories = async (req, res, next) => {
   try {
-    const productCategories = await ProductCategoryModel.find({})
-      .populate("products")
-      .exec();
-    // await products.populate("category").execPopulate();
+    let query = {};
+
+    // filters
+    let isPublished = req.query.isPublished || true;
+
+    const productCategories = await ProductCategoryModel.find(
+      { isPublished },
+      {},
+      query
+    ).exec();
     res.status(200).json({
-      meta: {},
+      meta: {
+        totalPages: 1,
+        totalCount: productCategories.length,
+        date: Date.now(),
+      },
       data: productCategories,
     });
   } catch (error) {
@@ -98,19 +108,11 @@ const getProductCategories_temp = async (req, res, next) => {
 const getProductCategoryById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    ProductCategoryModel.findById(id)
-      .then((result) => {
-        res.status(200).json({
-          meta: {},
-          data: result,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).json({
-          error: `server error -> ${error}`,
-        });
-      });
+    const productCategory = await ProductCategoryModel.findById(id);
+    res.status(200).json({
+      meta: {},
+      data: productCategory,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -119,7 +121,7 @@ const getProductCategoryById = async (req, res, next) => {
   }
 };
 
-const addProductCategory = (req, res, next) => {
+const addProductCategory = async (req, res, next) => {
   try {
     const { error } = validateCreateProductCategory(req.body);
     if (error) {
@@ -127,27 +129,26 @@ const addProductCategory = (req, res, next) => {
     }
 
     const productCategory = new ProductCategoryModel({
-      _id: new Mongoose.Types.ObjectId(),
+      _id: new mongoose.Types.ObjectId(),
       name: req.body.name,
       description: req.body.description,
       isPublished: req.body.isPublished,
       pictureUrl: req.file.filename,
     });
 
-    productCategory
-      .save()
-      .then((result) => {
-        res.status(201).json({
-          message: "productCategory created",
-          productCategoryId: result._id,
-        });
-      })
-      .catch((error) => {
+    await productCategory.save((error, productCategory) => {
+      if (error) {
         console.error(error);
         res.status(500).json({
           error: `server error -> ${error}`,
         });
-      });
+      } else {
+        res.status(201).json({
+          message: "productCategory created",
+          productCategoryId: productCategory._id,
+        });
+      }
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -158,30 +159,36 @@ const addProductCategory = (req, res, next) => {
 
 const editProductCategory = async (req, res, next) => {
   try {
-    // console.log(req.file);
     const productCategoryId = req.body.id;
-    const productCategory = await ProductCategoryModel.findById(
-      productCategoryId
-    );
-    if (!productCategory) {
-      return res.status(404).json({ error: "productCategory Not Found !!!" });
-    }
 
-    const { error } = validateEditProductCategory(req.body);
-    if (error) {
-      return res.status(400).json({ message: error.message });
-    }
+    const productCategory = {
+      name: req.body.name,
+      description: req.body.description,
+      isPublished: req.body.isPublished,
 
-    // productCategory.categoryId = req.body.categoryId;
-    productCategory.name = req.body.name;
-    productCategory.description = req.body.description;
-    productCategory.isPublished = req.body.isPublished;
+      price: req.body.price,
+      countInStock: req.body.countInStock,
+      category: req.body.productCategoryId,
+    };
     if (req.file) {
       productCategory.pictureUrl = req.file.filename;
     }
 
-    await productCategory.save();
-    res.status(200).json({ message: "productCategory is Updated :D" });
+    ProductCategoryModel.findByIdAndUpdate(productCategoryId, productCategory, {
+      new: true,
+    }).exec((error, product) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({
+          error: `server error -> ${error}`,
+        });
+      } else {
+        res.status(200).json({
+          message: "productCategory is Updated :D",
+          id: productCategory._id,
+        });
+      }
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -192,16 +199,21 @@ const editProductCategory = async (req, res, next) => {
 
 const deleteProductCategory = (req, res, next) => {
   try {
-    const id = req.params.id;
-    ProductCategoryModel.remove({ _id: id })
-      .then((result) => {
-        // TODO : DELETE PRODUCT PICTURE
-        res.status(200).json(result);
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).json({ error: `server error -> ${error}` });
-      });
+    const productCategoryId = req.params.id;
+    ProductCategoryModel.findByIdAndDelete(productCategoryId).exec(
+      (error, productCategory) => {
+        if (error) {
+          console.error(error);
+          res.status(500).json({ error: `server error -> ${error}` });
+        } else {
+          // TODO : DELETE PRODUCT Category PICTURE
+          res.status(200).json({
+            message: "productCategory deleted",
+            id: productCategory._id,
+          });
+        }
+      }
+    );
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: `server error -> ${error}` });

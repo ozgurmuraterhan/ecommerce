@@ -5,15 +5,8 @@ import * as actions from "@Redux/productCategories/productCategoriesActions";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { ProductCategoryAddForm } from "./ProductCategoryAddForm";
 
-const initProductCategory = {
-  name: "",
-  description: "",
-  pictureUrl: null,
-};
-
 export function ProductCategoryAdd({ history }) {
   const dispatch = useDispatch();
-  // const layoutDispatch = useContext(LayoutContext.Dispatch);
   const { actionsLoading } = useSelector(
     (state) => ({
       actionsLoading: state.productCategories.actionsLoading,
@@ -25,7 +18,7 @@ export function ProductCategoryAdd({ history }) {
     let formData = new FormData();
     formData.append("name", values.name);
     formData.append("description", values.description);
-    formData.append("isPublished", true);
+    formData.append("isPublished", values.isPublished);
 
     if (
       values.pictureUrl &&
@@ -83,7 +76,6 @@ export function ProductCategoryAdd({ history }) {
               ) : (
                 <ProductCategoryAddForm
                   actionsLoading={actionsLoading}
-                  productCategory={initProductCategory}
                   btnRef={btnRef}
                   saveProductCategory={saveProductCategory}
                 />

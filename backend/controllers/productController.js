@@ -137,7 +137,7 @@ const editProduct = async (req, res, next) => {
         } else {
           res.status(200).json({
             message: "product is Updated :D",
-            product: product._id,
+            id: product._id,
           });
         }
       }

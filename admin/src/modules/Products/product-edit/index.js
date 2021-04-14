@@ -1,4 +1,3 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { shallowEqual, useSelector } from "react-redux";
@@ -13,8 +12,8 @@ const initProduct = {
   description: "",
   price: 0,
   countInStock: 0,
-  pictureUrl: null,
   isPublished: false,
+  pictureUrl: null,
   productCategoryId: "",
 };
 
@@ -25,7 +24,6 @@ export function ProductEdit({
   },
 }) {
   const dispatch = useDispatch();
-  // const layoutDispatch = useContext(LayoutContext.Dispatch);
   const { actionsLoading, productForEdit, productCategories } = useSelector(
     (state) => ({
       actionsLoading: state.products.actionsLoading,
@@ -49,7 +47,6 @@ export function ProductEdit({
   }, [dispatch]);
 
   const saveProduct = (values) => {
-    // console.log('debug ::: productEdit_saveProduct_values ::: ', values);
     if (!id) {
       backToProductsList();
     } else {
@@ -118,7 +115,6 @@ export function ProductEdit({
                 </Row>
               ) : (
                 <ProductEditForm
-                  actionsLoading={actionsLoading}
                   product={productForEdit || initProduct}
                   productCategories={productCategories}
                   btnRef={btnRef}

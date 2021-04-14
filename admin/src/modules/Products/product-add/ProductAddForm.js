@@ -1,16 +1,17 @@
 import React from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Row, Col } from "react-bootstrap";
-import { FormikReactSelect } from "@Helpers/Formik";
+import {
+  InputText,
+  InputTextArea,
+  InputNumber,
+  FormikReactSelect,
+  InputTrueFalse,
+} from "@Helpers/Formik";
 import Thumb from "@Helpers/Images/ImageUpload/Thumb";
 
-export const ProductAddForm = ({
-  actionsLoading,
-  productCategories,
-  btnRef,
-  saveProduct,
-}) => {
+export const ProductAddForm = ({ productCategories, btnRef, saveProduct }) => {
   const InitialValues = {
     name: "",
     description: "",
@@ -24,7 +25,6 @@ export const ProductAddForm = ({
     },
   };
 
-  // Validation schema
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, "minimum 3 character")
@@ -99,85 +99,47 @@ export const ProductAddForm = ({
 
             <Row className="mt-3">
               <Col>
-                <div className="form-group">
-                  <label htmlFor="name">Name :</label>
-                  <Field
-                    name="name"
-                    className={
-                      touched.name && errors.name
-                        ? "form-control is-invalid"
-                        : "form-control"
-                    }
-                    type="text"
-                  />
-                  {touched.name && errors.name ? (
-                    <div className="invalid-feedback">{errors.name}</div>
-                  ) : null}
-                </div>
+                <InputText
+                  name="name"
+                  label="Name"
+                  touched={touched}
+                  errors={errors}
+                />
               </Col>
             </Row>
 
             <Row className="mt-3">
               <Col>
-                <div className="form-group">
-                  <label htmlFor="description">Description :</label>
-                  <Field
-                    name="description"
-                    className={
-                      touched.description && errors.description
-                        ? "form-control is-invalid"
-                        : "form-control"
-                    }
-                    as="textarea"
-                    rows={3}
-                    cols={10}
-                  />
-                  {touched.description && errors.description ? (
-                    <div className="invalid-feedback">{errors.description}</div>
-                  ) : null}
-                </div>
+                <InputTextArea
+                  name="description"
+                  label="Description"
+                  touched={touched}
+                  errors={errors}
+                  rows={3}
+                  cols={10}
+                />
               </Col>
             </Row>
 
             <Row className="mt-3">
               <Col>
-                <div className="form-group">
-                  <label htmlFor="price">Price :</label>
-                  <Field
-                    name="price"
-                    className={
-                      touched.price && errors.price
-                        ? "form-control is-invalid"
-                        : "form-control"
-                    }
-                    type="number"
-                  />
-                  {touched.price && errors.price ? (
-                    <div className="invalid-feedback">{errors.price}</div>
-                  ) : null}
-                </div>
+                <InputNumber
+                  name="price"
+                  label="Price"
+                  touched={touched}
+                  errors={errors}
+                />
               </Col>
             </Row>
 
             <Row className="mt-3">
               <Col>
-                <div className="form-group">
-                  <label htmlFor="countInStock">count in stock :</label>
-                  <Field
-                    name="countInStock"
-                    className={
-                      touched.countInStock && errors.countInStock
-                        ? "form-control is-invalid"
-                        : "form-control"
-                    }
-                    type="number"
-                  />
-                  {touched.countInStock && errors.countInStock ? (
-                    <div className="invalid-feedback">
-                      {errors.countInStock}
-                    </div>
-                  ) : null}
-                </div>
+                <InputNumber
+                  name="countInStock"
+                  label="count in stock"
+                  touched={touched}
+                  errors={errors}
+                />
               </Col>
             </Row>
 
@@ -211,17 +173,12 @@ export const ProductAddForm = ({
 
             <Row>
               <Col>
-                <div class="form-check">
-                  <Field
-                    name="isPublished"
-                    id="isPublished"
-                    className="form-check-input"
-                    type="checkbox"
-                  />
-                  <label className="form-check-label" htmlFor="isPublished">
-                    isPublished
-                  </label>
-                </div>
+                <InputTrueFalse
+                  name="isPublished"
+                  label="is Published"
+                  touched={touched}
+                  errors={errors}
+                />
               </Col>
             </Row>
 

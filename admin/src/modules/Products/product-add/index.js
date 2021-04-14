@@ -8,7 +8,6 @@ import { ProductAddForm } from "./ProductAddForm";
 
 export function ProductAdd({ history }) {
   const dispatch = useDispatch();
-  // const layoutDispatch = useContext(LayoutContext.Dispatch);
   const { actionsLoading, productCategories } = useSelector(
     (state) => ({
       actionsLoading: state.products.actionsLoading,
@@ -85,7 +84,6 @@ export function ProductAdd({ history }) {
                 </Row>
               ) : (
                 <ProductAddForm
-                  actionsLoading={actionsLoading}
                   productCategories={productCategories}
                   btnRef={btnRef}
                   saveProduct={saveProduct}
