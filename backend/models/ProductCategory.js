@@ -1,8 +1,24 @@
 const mongoose = require("mongoose");
 
-const productCategorySchema = new mongoose.Schema({
-  products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-  name: { type: String, required: true },
+const schemaOptions = {
+  timestamps: { createdAt: "createDate", updatedAt: "updateDate" },
+};
+
+const productCategorySchema = new mongoose.Schema(
+  {
+    _id: { type: mongoose.Schema.Types.ObjectId },
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    pictureUrl: { type: String, required: false },
+    isPublished: { type: Boolean, required: true, default: true },
+  },
+  schemaOptions
+);
+
+productCategorySchema.virtual("products", {
+  ref: "Product",
+  localField: "_id",
+  foreignField: "category",
 });
 
 const ProductCategory = mongoose.model(

@@ -35,6 +35,7 @@ router.get("/", userController.getUsers);
 
 router.get("/:id", userController.getUserById);
 
+// router.post("/", [upload, checkAuth], userController.addUser);
 router.post("/", upload, userController.addUser);
 
 router.delete("/:id", userController.deleteUser);

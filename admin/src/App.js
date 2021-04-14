@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
+import { Routes } from "@Helpers/Routes/routes";
 
-function App() {
+import AlertState from "./context/Alert/alertState";
+
+function App({ store, persistor, basename }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    /* Provide Redux store */
+    <Provider store={store}>
+      <AlertState>
+        {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
+        <PersistGate persistor={persistor}>
+          {/* Override `basename` (e.g: `homepage` in `package.json`) */}
+          <BrowserRouter basename={basename}>
+            <Routes />
+          </BrowserRouter>
+        </PersistGate>
+      </AlertState>
+    </Provider>
   );
 }
 

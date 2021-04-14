@@ -46,7 +46,7 @@ router.post("/", upload, productController.addProduct);
 //@desc   PUT(edit) a product from db
 //@route  PUT(edit) /api/v1/product/:id
 //@access Admin, ProductsManager
-router.put("/:id", upload, productController.editProduct);
+router.put("/", upload, productController.editProduct);
 
 //@desc   DELETE a product by id from db
 //@route  DELETE /api/v1/product/:id

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Actions
-import { getProductDetails } from "@Redux/actions/productActions";
-import { addToCart } from "@Redux/actions/cartActions";
+import { getProductDetails } from "@Redux/cart-000/actions/productActions";
+import { addToCart } from "@Redux/cart-000/actions/cartActions";
 
 import "./ProductPage.css";
 

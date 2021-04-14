@@ -1,61 +1,44 @@
 import { useState, useCallback } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
+import { Routes } from "@Helpers/Routes/routes";
 
-import { AuthContext } from "@Context/auth-context";
-
-import routes from "@Helpers/Routes/routes";
+import AlertState from "./context/Alert/alertState";
 
 // Components
-import Navbar from "@Components/Navbar/Navbar";
-import Backdrop from "@Components/Backdrop/Backdrop";
-import SideDrawer from "@Components/SideDrawer/SideDrawer";
+// import Navbar from "@Components/Navbar/Navbar";
+// import Backdrop from "@Components/Backdrop/Backdrop";
+// import SideDrawer from "@Components/SideDrawer/SideDrawer";
 
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const login = useCallback(() => {
-    setIsLoggedIn(true);
-  }, []);
-
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-  }, []);
-
-  const [sideDrawerToggle, setSideDrawerToggle] = useState(false);
+function App({ store, persistor, basename }) {
+  // const [sideDrawerToggle, setSideDrawerToggle] = useState(false);
 
   return (
-    <AuthContext.Provider
-      value={{
-        isLoggedIn: isLoggedIn,
-        login: login,
-        logout: logout,
-      }}
-    >
-      <Router>
-        <Navbar click={() => setSideDrawerToggle(true)} />
-        <SideDrawer
-          show={sideDrawerToggle}
-          click={() => setSideDrawerToggle(false)}
-        />
-        <Backdrop
-          show={sideDrawerToggle}
-          click={() => setSideDrawerToggle(false)}
-        />
+    /* Provide Redux store */
+    <Provider store={store}>
+      {/* <Navbar click={() => setSideDrawerToggle(true)} />
 
-        <main>
-          <Switch>
-            {routes.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                component={route.component}
-                exact
-              />
-            ))}
-          </Switch>
-        </main>
-      </Router>
-    </AuthContext.Provider>
+      <SideDrawer
+        show={sideDrawerToggle}
+        click={() => setSideDrawerToggle(false)}
+      />
+
+      <Backdrop
+        show={sideDrawerToggle}
+        click={() => setSideDrawerToggle(false)}
+      /> */}
+
+      <AlertState>
+        {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
+        <PersistGate persistor={persistor}>
+          {/* Override `basename` (e.g: `homepage` in `package.json`) */}
+          <BrowserRouter basename={basename}>
+            <Routes />
+          </BrowserRouter>
+        </PersistGate>
+      </AlertState>
+    </Provider>
   );
 }
 

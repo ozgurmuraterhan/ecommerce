@@ -1,0 +1,12 @@
+body {
+  background-color: #f4f4f4;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none !important;
+}

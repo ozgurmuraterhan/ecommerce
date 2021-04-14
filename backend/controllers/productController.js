@@ -1,4 +1,6 @@
+const mongoose = require("mongoose");
 const ProductModel = require("../models/Product");
+const ProductCategoryModel = require("../models/ProductCategory");
 const {
   validateCreateProduct,
   validateEditProduct,
@@ -6,18 +8,48 @@ const {
 
 const getProducts = async (req, res, next) => {
   try {
-    ProductModel.find()
-      .then((result) => {
-        res.status(200).json(result);
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).json({
-          error: `server error -> ${error}`,
-        });
+    let pageNumber = parseInt(req.query.pageNumber) || 1;
+    let pageSize = parseInt(req.query.pageSize) || 2000;
+    let sortField = req.query.sortField || "createDate";
+    let sortOrder = req.query.sortOrder == "desc" ? -1 : 1;
+    let sort = { [sortField]: sortOrder };
+    let query = {};
+
+    // filters
+    let isPublished = req.query.isPublished || true;
+
+    if (pageNumber < 0 || pageNumber === 0) {
+      response = {
+        error: true,
+        message: "invalid page number, should start with 1",
+      };
+      return res.status(404).json({
+        meta: {
+          date: Date.now(),
+        },
+        error: {
+          error: true,
+          message: "invalid page number, should start with 1",
+        },
       });
+    }
+
+    query.skip = pageSize * (pageNumber - 1);
+    query.limit = pageSize;
+
+    const products = await ProductModel.find({ isPublished }, {}, query)
+      .sort(sort)
+      .populate("category")
+      .exec();
+    res.status(200).json({
+      meta: {
+        totalPages: 1,
+        totalCount: products.length,
+        date: Date.now(),
+      },
+      data: products,
+    });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       error: `server error -> ${error}`,
     });
@@ -27,25 +59,20 @@ const getProducts = async (req, res, next) => {
 const getProductById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    ProductModel.findById(id)
-      .then((result) => {
-        res.status(200).json(result);
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).json({
-          error: `server error -> ${error}`,
-        });
-      });
+    const product = await ProductModel.findById(id);
+    await product.populate("category").execPopulate();
+    res.status(200).json({
+      meta: {},
+      data: product,
+    });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       error: `server error -> ${error}`,
     });
   }
 };
 
-const addProduct = (req, res, next) => {
+const addProduct = async (req, res, next) => {
   try {
     const { error } = validateCreateProduct(req.body);
     if (error) {
@@ -53,28 +80,29 @@ const addProduct = (req, res, next) => {
     }
 
     const product = new ProductModel({
-      // category: req.body.categoryId,
+      _id: new mongoose.Types.ObjectId(),
       name: req.body.name,
       description: req.body.description,
       price: req.body.price,
       countInStock: req.body.countInStock,
       pictureUrl: req.file.filename,
+      isPublished: req.body.isPublished,
+      category: req.body.productCategoryId,
     });
 
-    product
-      .save()
-      .then((result) => {
-        res.status(201).json({
-          message: "product created",
-          createdProduct: result,
-        });
-      })
-      .catch((error) => {
+    await product.save((error, product) => {
+      if (error) {
         console.error(error);
         res.status(500).json({
           error: `server error -> ${error}`,
         });
-      });
+      } else {
+        res.status(201).json({
+          message: "product created",
+          productId: product._id,
+        });
+      }
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -85,26 +113,35 @@ const addProduct = (req, res, next) => {
 
 const editProduct = async (req, res, next) => {
   try {
-    const productId = req.params.id;
-    const product = await ProductModel.findById(productId);
-    if (!product) {
-      return res.status(404).json({ error: "product Not Found !!!" });
+    const productId = req.body.id;
+
+    const product = {
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      countInStock: req.body.countInStock,
+      isPublished: req.body.isPublished,
+      category: req.body.productCategoryId,
+    };
+    if (req.file) {
+      product.pictureUrl = req.file.filename;
     }
 
-    const { error } = validateEditProduct(req.body);
-    if (error) {
-      return res.status(400).json({ message: error.message });
-    }
-
-    // product.categoryId = req.body.categoryId;
-    product.name = req.body.name;
-    product.description = req.body.description;
-    product.price = req.body.price;
-    product.countInStock = req.body.countInStock;
-    product.pictureUrl = req.file.filename;
-
-    await product.save();
-    res.status(200).json({ message: "product is Updated :D" });
+    ProductModel.findByIdAndUpdate(productId, product, { new: true }).exec(
+      (error, product) => {
+        if (error) {
+          console.error(error);
+          res.status(500).json({
+            error: `server error -> ${error}`,
+          });
+        } else {
+          res.status(200).json({
+            message: "product is Updated :D",
+            product: product._id,
+          });
+        }
+      }
+    );
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -115,16 +152,18 @@ const editProduct = async (req, res, next) => {
 
 const deleteProduct = (req, res, next) => {
   try {
-    const id = req.params.id;
-    ProductModel.remove({ _id: id })
-      .then((result) => {
-        // TODO : DELETE PRODUCT PICTURE
-        res.status(200).json(result);
-      })
-      .catch((error) => {
+    const productId = req.params.id;
+    ProductModel.findByIdAndDelete(productId).exec((error, product) => {
+      if (error) {
         console.error(error);
         res.status(500).json({ error: `server error -> ${error}` });
-      });
+      } else {
+        // TODO : DELETE PRODUCT PICTURE
+        res
+          .status(200)
+          .json({ message: "product deleted", productId: product._id });
+      }
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: `server error -> ${error}` });
