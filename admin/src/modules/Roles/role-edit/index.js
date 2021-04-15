@@ -1,54 +1,61 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { shallowEqual, useSelector } from "react-redux";
-import * as actions from "@Redux/users/usersActions";
-import * as rolesActions from "@Redux/roles/rolesActions";
+import * as actions from "@Redux/roles/rolesActions";
 import { Container, Row, Col, Card } from "react-bootstrap";
-import { UserAddForm } from "./UserAddForm";
+import { RoleEditForm } from "./RoleEditForm";
 
-export function UserAdd({ history }) {
+const initRole = {
+  id: undefined,
+  name: "",
+  description: "",
+};
+
+export function RoleEdit({
+  history,
+  match: {
+    params: { id },
+  },
+}) {
   const dispatch = useDispatch();
-  const { actionsLoading, roles } = useSelector(
+  const { actionsLoading, roleForEdit } = useSelector(
     (state) => ({
-      actionsLoading: state.users.actionsLoading,
-      roles: state.roles.entities,
+      actionsLoading: state.roles.actionsLoading,
+      roleForEdit: state.roles.roleForEdit,
     }),
     shallowEqual
   );
 
   useEffect(() => {
-    dispatch(rolesActions.fetchRoles());
-  }, [dispatch]);
-
-  const saveUser = (values) => {
-    let formData = new FormData();
-    formData.append("username", values.username);
-    formData.append("password", values.password);
-    formData.append("isActive", values.isActive);
-    formData.append("roleId", values.roleId.value);
-
-    if (
-      values.avatar &&
-      values.avatar !== null &&
-      values.avatar !== undefined
-    ) {
-      formData.append(`avatar`, values.avatar);
+    if (id) {
+      dispatch(actions.fetchRole(id));
+    } else {
+      backToRolesList();
     }
+    // eslint-disable-next-line
+  }, [id, dispatch]);
 
-    dispatch(actions.createUser(formData))
-      .then(() => backToUsersList())
-      .catch((error) => console.error(error));
+  const saveRole = (values) => {
+    if (!id) {
+      backToRolesList();
+    } else {
+      let newValues = { ...values };
+
+      dispatch(actions.updateRole(newValues))
+        .then(() => backToRolesList())
+        .catch((error) => console.log(error));
+    }
   };
 
   const btnRef = useRef();
-  const saveUserClick = () => {
+  const saveRoleClick = () => {
     if (btnRef && btnRef.current) {
       btnRef.current.click();
     }
   };
 
-  const backToUsersList = () => {
-    history.push(`/user`);
+  const backToRolesList = () => {
+    history.push(`/role`);
   };
 
   return (
@@ -60,11 +67,11 @@ export function UserAdd({ history }) {
               as="h5"
               className="bg-white d-flex justify-content-between align-items-center"
             >
-              <div>Add User</div>
+              <div>Edit Role</div>
               <div>
                 <button
                   type="button"
-                  onClick={backToUsersList}
+                  onClick={backToRolesList}
                   className="btn btn-light"
                 >
                   <i className="fa fa-arrow-left"></i>
@@ -81,10 +88,10 @@ export function UserAdd({ history }) {
                   </Col>
                 </Row>
               ) : (
-                <UserAddForm
-                  roles={roles}
+                <RoleEditForm
+                  role={roleForEdit || initRole}
                   btnRef={btnRef}
-                  saveUser={saveUser}
+                  saveRole={saveRole}
                 />
               )}
             </Card.Body>
@@ -92,9 +99,9 @@ export function UserAdd({ history }) {
               <button
                 type="submit"
                 className="btn btn-primary"
-                onClick={saveUserClick}
+                onClick={saveRoleClick}
               >
-                Add User
+                Save Changes
               </button>
             </Card.Footer>
           </Card>

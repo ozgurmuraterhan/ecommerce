@@ -12,24 +12,30 @@ import {
 } from "@Helpers/Formik";
 import Thumb from "@Helpers/Images/ImageUpload/Thumb";
 
-export const UserEditForm = ({ user, btnRef, saveUser }) => {
+export const UserEditForm = ({ roles, user, btnRef, saveUser }) => {
   let InitialValues;
   if (user) {
     InitialValues = {
       id: user._id,
       username: user.username,
-      role: user.role,
       preImages: user.avatar,
       isActive: user.isActive,
       avatar: null,
+      roleId: {
+        label: user.role?.name,
+        value: user.role?.id,
+      },
     };
   } else {
     InitialValues = {
       id: undefined,
       username: "",
-      role: 0,
       isActive: false,
       avatar: null,
+      roleId: {
+        label: "",
+        value: "",
+      },
     };
   }
 
@@ -38,7 +44,6 @@ export const UserEditForm = ({ user, btnRef, saveUser }) => {
       .min(3, "minimum 3 character")
       .max(100, "maximum 100 character")
       .required("this field is required"),
-    role: Yup.number().min(0, "minimum = 0").required("this field is required"),
   });
 
   return (
@@ -99,12 +104,30 @@ export const UserEditForm = ({ user, btnRef, saveUser }) => {
 
             <Row className="mt-3">
               <Col>
-                <InputNumber
-                  name="role"
-                  label="Role"
-                  touched={touched}
-                  errors={errors}
-                />
+                <div className="form-group">
+                  <label>Role </label>
+                  <FormikReactSelect
+                    name="roleId"
+                    id="roleId"
+                    defaultValue={{
+                      label: values.roleId.name,
+                      value: values.roleId._id,
+                    }}
+                    value={values.roleId}
+                    options={
+                      roles &&
+                      roles.map((item) => {
+                        return { label: item.name, value: item._id };
+                      })
+                    }
+                    onChange={setFieldValue}
+                    onBlur={setFieldTouched}
+                    className={`${errors.roleId ? "is-invalid" : ""}`}
+                  />
+                  {touched.roleId && errors.roleId ? (
+                    <div className="invalid-feedback">{errors.roleId}</div>
+                  ) : null}
+                </div>
               </Col>
             </Row>
 

@@ -1,54 +1,36 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { shallowEqual, useSelector } from "react-redux";
-import * as actions from "@Redux/users/usersActions";
-import * as rolesActions from "@Redux/roles/rolesActions";
+import * as actions from "@Redux/roles/rolesActions";
 import { Container, Row, Col, Card } from "react-bootstrap";
-import { UserAddForm } from "./UserAddForm";
+import { RoleAddForm } from "./RoleAddForm";
 
-export function UserAdd({ history }) {
+export function RoleAdd({ history }) {
   const dispatch = useDispatch();
-  const { actionsLoading, roles } = useSelector(
+  const { actionsLoading } = useSelector(
     (state) => ({
-      actionsLoading: state.users.actionsLoading,
-      roles: state.roles.entities,
+      actionsLoading: state.roles.actionsLoading,
     }),
     shallowEqual
   );
 
-  useEffect(() => {
-    dispatch(rolesActions.fetchRoles());
-  }, [dispatch]);
+  const saveRole = (values) => {
+    let newValues = { ...values };
 
-  const saveUser = (values) => {
-    let formData = new FormData();
-    formData.append("username", values.username);
-    formData.append("password", values.password);
-    formData.append("isActive", values.isActive);
-    formData.append("roleId", values.roleId.value);
-
-    if (
-      values.avatar &&
-      values.avatar !== null &&
-      values.avatar !== undefined
-    ) {
-      formData.append(`avatar`, values.avatar);
-    }
-
-    dispatch(actions.createUser(formData))
-      .then(() => backToUsersList())
+    dispatch(actions.createRole(newValues))
+      .then(() => backToRolesList())
       .catch((error) => console.error(error));
   };
 
   const btnRef = useRef();
-  const saveUserClick = () => {
+  const saveRoleClick = () => {
     if (btnRef && btnRef.current) {
       btnRef.current.click();
     }
   };
 
-  const backToUsersList = () => {
-    history.push(`/user`);
+  const backToRolesList = () => {
+    history.push(`/role`);
   };
 
   return (
@@ -60,11 +42,11 @@ export function UserAdd({ history }) {
               as="h5"
               className="bg-white d-flex justify-content-between align-items-center"
             >
-              <div>Add User</div>
+              <div>Add Role</div>
               <div>
                 <button
                   type="button"
-                  onClick={backToUsersList}
+                  onClick={backToRolesList}
                   className="btn btn-light"
                 >
                   <i className="fa fa-arrow-left"></i>
@@ -81,20 +63,16 @@ export function UserAdd({ history }) {
                   </Col>
                 </Row>
               ) : (
-                <UserAddForm
-                  roles={roles}
-                  btnRef={btnRef}
-                  saveUser={saveUser}
-                />
+                <RoleAddForm btnRef={btnRef} saveRole={saveRole} />
               )}
             </Card.Body>
             <Card.Footer>
               <button
                 type="submit"
                 className="btn btn-primary"
-                onClick={saveUserClick}
+                onClick={saveRoleClick}
               >
-                Add User
+                Add Role
               </button>
             </Card.Footer>
           </Card>

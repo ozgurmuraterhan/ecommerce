@@ -7,6 +7,12 @@ import HomePage from "@Pages/Home/HomePage";
 import Register from "@Pages/Auth/Register/index";
 import Login from "@Pages/Auth/Login/index";
 
+// Role
+import RolesList from "@Modules/Roles/roles-list";
+import { RoleAdd } from "@Modules/Roles/role-add";
+import RoleDetails from "@Modules/Roles/role-details";
+import { RoleEdit } from "@Modules/Roles/role-edit";
+
 // User
 import UsersList from "@Modules/Users/users-list";
 import { UserAdd } from "@Modules/Users/user-add";
@@ -39,6 +45,12 @@ const BasePage = () => {
         {/* Auth */}
         <Route path="/Register" component={Register} exact />
         <Route path="/Login" component={Login} exact />
+
+        {/* Role */}
+        <Route path="/Role" component={RolesList} exact />
+        <Route path="/Role/Add" component={RoleAdd} exact />
+        <Route path="/Role/:id" component={RoleDetails} exact />
+        <Route path="/Role/Edit/:id" component={RoleEdit} exact />
 
         {/* User */}
         <Route path="/User" component={UsersList} exact />

@@ -2,15 +2,19 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { shallowEqual, useSelector } from "react-redux";
 import * as actions from "@Redux/users/usersActions";
+import * as rolesActions from "@Redux/roles/rolesActions";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { UserEditForm } from "./UserEditForm";
 
 const initUser = {
   id: undefined,
   username: "",
-  role: 0,
   isActive: false,
   avatar: null,
+  roleId: {
+    label: "",
+    value: "",
+  },
 };
 
 export function UserEdit({
@@ -20,13 +24,18 @@ export function UserEdit({
   },
 }) {
   const dispatch = useDispatch();
-  const { actionsLoading, userForEdit } = useSelector(
+  const { actionsLoading, userForEdit, roles } = useSelector(
     (state) => ({
       actionsLoading: state.users.actionsLoading,
       userForEdit: state.users.userForEdit,
+      roles: state.roles.entities,
     }),
     shallowEqual
   );
+
+  useEffect(() => {
+    dispatch(rolesActions.fetchRoles());
+  }, [dispatch]);
 
   useEffect(() => {
     if (id) {
@@ -44,8 +53,8 @@ export function UserEdit({
       let formData = new FormData();
       formData.append("id", values.id);
       formData.append("username", values.username);
-      formData.append("role", values.role);
       formData.append("isActive", values.isActive);
+      formData.append("roleId", values.roleId.value);
 
       if (
         values.avatar &&
@@ -103,6 +112,7 @@ export function UserEdit({
                 </Row>
               ) : (
                 <UserEditForm
+                  roles={roles}
                   user={userForEdit || initUser}
                   btnRef={btnRef}
                   saveUser={saveUser}

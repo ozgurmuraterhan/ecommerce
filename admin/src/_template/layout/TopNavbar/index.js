@@ -17,6 +17,9 @@ export const TopNavbar = () => {
           <Link to="/User">
             <Nav.Link href="/User">Users</Nav.Link>
           </Link>
+          <Link to="/Role">
+            <Nav.Link href="/Role">Roles</Nav.Link>
+          </Link>
         </Nav>
         <Nav>
           <Link to="/Register">

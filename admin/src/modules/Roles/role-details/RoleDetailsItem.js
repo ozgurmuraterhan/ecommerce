@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { Row, Col, Card, ListGroup, ListGroupItem } from "react-bootstrap";
 import url from "@Helpers/api/url.json";
 
-export const UserDetailsItem = ({
+export const RoleDetailsItem = ({
   actionsLoading,
-  userForDetails,
-  editUserHandler,
-  deleteUserHandler,
+  roleForDetails,
+  editRoleHandler,
+  deleteRoleHandler,
 }) => {
   return (
     <Row className="my-3">
@@ -19,30 +19,16 @@ export const UserDetailsItem = ({
         <React.Fragment>
           <Col xs={12} sm={12} md={6} lg={6} xl={6} className="mb-3 px-2">
             <Card>
-              <Card.Img
-                variant="top"
-                src={`${url.myBaseUrl}/avatars/${userForDetails?.avatar}`}
-                alt={userForDetails?.username}
-                title={userForDetails?.username}
-              />
               <Card.Body>
-                <Card.Title>{userForDetails?.username}</Card.Title>
-                <Link to={`/role/${userForDetails?.role?._id}`}>
-                  <Card.Text className="text-muted">{`${userForDetails?.role?.name}`}</Card.Text>
-                </Link>
-                <Card.Text>user description</Card.Text>
+                <Card.Title>{roleForDetails?.name}</Card.Title>
+                <Card.Text>{roleForDetails?.description}</Card.Text>
               </Card.Body>
-              <ListGroup className="list-group-flush">
-                <ListGroupItem>
-                  {userForDetails?.isActive ? "Active" : "Deactive"}
-                </ListGroupItem>
-              </ListGroup>
               <Card.Body>
-                <Card.Link href={`/user/edit/${userForDetails?.id}`}>
+                <Card.Link href={`/role/edit/${roleForDetails?.id}`}>
                   Edit
                 </Card.Link>
                 <Card.Link
-                  onClick={() => deleteUserHandler(userForDetails?.id)}
+                  onClick={() => deleteRoleHandler(roleForDetails?.id)}
                 >
                   Delete
                 </Card.Link>
@@ -56,18 +42,18 @@ export const UserDetailsItem = ({
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => editUserHandler(userForDetails._id)}
+                  onClick={() => editRoleHandler(roleForDetails._id)}
                 >
-                  Edit User
+                  Edit Role
                 </button>
               </ListGroupItem>
               <ListGroupItem>
                 <button
                   type="button"
                   className="btn btn-danger"
-                  onClick={() => deleteUserHandler(userForDetails._id)}
+                  onClick={() => deleteRoleHandler(roleForDetails._id)}
                 >
-                  Delete User
+                  Delete Role
                 </button>
               </ListGroupItem>
             </ListGroup>

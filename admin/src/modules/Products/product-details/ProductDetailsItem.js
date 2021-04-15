@@ -21,19 +21,17 @@ export const ProductDetailsItem = ({
         <React.Fragment>
           <Col xs={12} sm={12} md={6} lg={6} xl={6} className="mb-3 px-2">
             <Card>
-              <Link to={`/product/${productForDetails?.id}`}>
-                <Card.Img
-                  variant="top"
-                  src={`${url.myBaseUrl}/products/${productForDetails?.pictureUrl}`}
-                  alt={productForDetails?.name}
-                  title={productForDetails?.name}
-                />
-              </Link>
+              <Card.Img
+                variant="top"
+                src={`${url.myBaseUrl}/products/${productForDetails?.pictureUrl}`}
+                alt={productForDetails?.name}
+                title={productForDetails?.name}
+              />
               <Card.Body>
-                <Link to={`/product/${productForDetails?.id}`}>
-                  <Card.Title>{productForDetails?.name}</Card.Title>
-                </Link>
-                <Link to={`/productCategory/${productForDetails?.id}`}>
+                <Card.Title>{productForDetails?.name}</Card.Title>
+                <Link
+                  to={`/productCategory/${productForDetails?.category?._id}`}
+                >
                   <Card.Text className="text-muted">{`${productForDetails?.category?.name}`}</Card.Text>
                 </Link>
                 <Card.Text>{productForDetails?.description}</Card.Text>

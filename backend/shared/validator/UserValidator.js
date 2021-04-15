@@ -5,9 +5,9 @@ const validateCreateUser = (data) => {
   const schema = Joi.object({
     username: Joi.string().required(),
     password: Joi.string().required(),
-    role: Joi.number(),
     isActive: Joi.bool().required(),
     avatar: Joi.string(),
+    roleId: Joi.objectId().required(),
   });
   return schema.validate(data);
 };
@@ -17,9 +17,9 @@ const validateEditUser = (data) => {
     id: Joi.objectId().required(),
     username: Joi.string().required(),
     password: Joi.string().required(),
-    role: Joi.number(),
     isActive: Joi.bool().required(),
     avatar: Joi.string(),
+    roleId: Joi.objectId().required(),
   });
   return schema.validate(data);
 };

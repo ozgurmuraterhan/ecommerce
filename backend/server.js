@@ -4,6 +4,7 @@ const express = require("express");
 var cors = require("cors");
 const connectDB = require("./configurations/db");
 
+const roleRoutes = require("./routes/roleRoutes");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
@@ -39,6 +40,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/api/v1/role", roleRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1", authRoutes);
 app.use("/api/v1/product", productRoutes);

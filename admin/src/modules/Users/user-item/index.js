@@ -27,8 +27,7 @@ const UserItem = ({
             <Card.Title className="mb-0">{username}</Card.Title>
           </Link>
           <Link to={`/role/${id}`}>
-            {/* <small className="text-muted">{`${role?.name}`}</small> */}
-            <small className="text-muted">{`${role}`}</small>
+            <small className="text-muted">{`${role?.name}`}</small>
           </Link>
           <Card.Text className="mt-2">user about</Card.Text>
         </Card.Body>

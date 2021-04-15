@@ -39,7 +39,7 @@ const getUsers = async (req, res, next) => {
 
     const users = await UserModel.find({ isActive }, {}, query)
       .sort(sort)
-      // .populate("category")
+      .populate("role")
       .exec();
     res.status(200).json({
       meta: {
@@ -60,7 +60,7 @@ const getUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const user = await UserModel.findById(id);
-    // await user.populate("role").execPopulate();
+    await user.populate("role").execPopulate();
     res.status(200).json({
       meta: {},
       data: user,
@@ -85,8 +85,8 @@ const addUser = async (req, res, next) => {
       // 2 - get username - password - avatar
       const username = req.body.username;
       const password = req.body.password;
-      const role = req.body.role;
       const isActive = req.body.isActive;
+      const role = req.body.roleId;
       const avatar = req.file.filename;
 
       // 3 - hash password
@@ -136,8 +136,8 @@ const editUser = async (req, res, next) => {
 
     const user = {
       username: req.body.username,
-      role: req.body.role,
       isActive: req.body.isActive,
+      role: req.body.roleId,
     };
     if (req.file) {
       user.avatar = req.file.filename;

@@ -19,18 +19,14 @@ export const ProductCategoryDetailsItem = ({
         <React.Fragment>
           <Col xs={12} sm={12} md={6} lg={6} xl={6} className="mb-3 px-2">
             <Card>
-              <Link to={`/productCategory/${productCategoryForDetails?.id}`}>
-                <Card.Img
-                  variant="top"
-                  src={`${url.myBaseUrl}/productCategories/${productCategoryForDetails?.pictureUrl}`}
-                  alt={productCategoryForDetails?.name}
-                  title={productCategoryForDetails?.name}
-                />
-              </Link>
+              <Card.Img
+                variant="top"
+                src={`${url.myBaseUrl}/productCategories/${productCategoryForDetails?.pictureUrl}`}
+                alt={productCategoryForDetails?.name}
+                title={productCategoryForDetails?.name}
+              />
               <Card.Body>
-                <Link to={`/productCategory/${productCategoryForDetails?.id}`}>
-                  <Card.Title>{productCategoryForDetails?.name}</Card.Title>
-                </Link>
+                <Card.Title>{productCategoryForDetails?.name}</Card.Title>
                 <Card.Text>{productCategoryForDetails?.description}</Card.Text>
               </Card.Body>
               <Card.Body>

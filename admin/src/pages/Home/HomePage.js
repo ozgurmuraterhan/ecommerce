@@ -52,7 +52,25 @@ const HomePage = () => {
                     <Card>
                       <Card.Header>
                         <Link to="/productCategory">
-                          <h4>Product Categories ({totalCount})</h4>
+                          <h4>Product Categories</h4>
+                        </Link>
+                      </Card.Header>
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={6} md={4} lg={4} xl={3}>
+                    <Card>
+                      <Card.Header>
+                        <Link to="/user">
+                          <h4>Users</h4>
+                        </Link>
+                      </Card.Header>
+                    </Card>
+                  </Col>
+                  <Col xs={12} sm={6} md={4} lg={4} xl={3}>
+                    <Card>
+                      <Card.Header>
+                        <Link to="/role">
+                          <h4>Roles</h4>
                         </Link>
                       </Card.Header>
                     </Card>
