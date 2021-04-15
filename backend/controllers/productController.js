@@ -85,8 +85,8 @@ const addProduct = async (req, res, next) => {
       description: req.body.description,
       price: req.body.price,
       countInStock: req.body.countInStock,
-      pictureUrl: req.file.filename,
       isPublished: req.body.isPublished,
+      pictureUrl: req.file.filename,
       category: req.body.productCategoryId,
     });
 

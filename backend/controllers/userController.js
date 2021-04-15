@@ -87,7 +87,7 @@ const addUser = async (req, res, next) => {
       const password = req.body.password;
       const role = req.body.role;
       const isActive = req.body.isActive;
-      const avatar = req.file.path;
+      const avatar = req.file.filename;
 
       // 3 - hash password
       const salt = 12;
@@ -133,15 +133,9 @@ const addUser = async (req, res, next) => {
 const editUser = async (req, res, next) => {
   try {
     const userId = req.body.id;
-    const password = req.body.password;
-
-    //  hash password
-    const salt = 12;
-    const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = {
       username: req.body.username,
-      password: hashedPassword,
       role: req.body.role,
       isActive: req.body.isActive,
     };
@@ -157,6 +151,12 @@ const editUser = async (req, res, next) => {
             error: `server error -> ${error}`,
           });
         } else {
+          // if (req.body.password) {
+          //   //  hash password
+          //   const salt = 12;
+          //   const hashedPassword = bcrypt.hash(req.body.password, salt);
+          //   user.password = hashedPassword;
+          // }
           res.status(200).json({
             message: "user is Updated :D",
             id: user._id,
@@ -170,34 +170,6 @@ const editUser = async (req, res, next) => {
       error: `server error -> ${error}`,
     });
   }
-
-  // try {
-  //   const userId = req.body.id;
-  //   const user = await UserModel.findById(userId);
-  //   if (!user) {
-  //     return res.status(404).json({ error: "user Not Found !!!" });
-  //   }
-
-  //   const { error } = validateEditUser(req.body);
-  //   if (error) {
-  //     return res.status(400).json({ message: error.message });
-  //   }
-
-  //   // user.categoryId = req.body.categoryId;
-  //   user.username = req.body.username;
-  //   user.password = req.body.password;
-  //   user.role = req.body.role;
-  //   user.isActive = req.body.isActive;
-  //   user.avatar = req.file.filename;
-
-  //   await user.save();
-  //   res.status(200).json({ message: "user is Updated :D" });
-  // } catch (error) {
-  //   console.error(error);
-  //   res.status(500).json({
-  //     error: `server error -> ${error}`,
-  //   });
-  // }
 };
 
 const deleteUser = (req, res, next) => {

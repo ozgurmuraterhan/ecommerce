@@ -1,6 +1,7 @@
 {
   "myBaseUrl": "http://localhost:8000",
   "myBaseApiUrl": "http://localhost:8000/api/v1",
+  "USERS_URL": "http://localhost:8000/api/v1/User",
   "LOGIN_URL": "http://localhost:8000/api/v1/Login",
   "PRODUCTCATEGORIES_URL": "http://localhost:8000/api/v1/ProductCategory",
   "PRODUCTS_URL": "http://localhost:8000/api/v1/Product"
