@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const ProductModel = require("../models/Product");
-const ProductCategoryModel = require("../models/ProductCategory");
+// const ProductCategoryModel = require("../models/ProductCategory");
 const {
   validateCreateProduct,
   validateEditProduct,

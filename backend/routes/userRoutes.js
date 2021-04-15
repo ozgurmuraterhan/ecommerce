@@ -38,6 +38,8 @@ router.get("/:id", userController.getUserById);
 // router.post("/", [upload, checkAuth], userController.addUser);
 router.post("/", upload, userController.addUser);
 
+router.put("/", upload, userController.editUser);
+
 router.delete("/:id", userController.deleteUser);
 
 module.exports = router;

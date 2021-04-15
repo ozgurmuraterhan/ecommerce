@@ -6,6 +6,7 @@ const validateCreateUser = (data) => {
     username: Joi.string().required(),
     password: Joi.string().required(),
     role: Joi.number(),
+    isActive: Joi.bool().required(),
     avatar: Joi.string(),
   });
   return schema.validate(data);
@@ -13,9 +14,11 @@ const validateCreateUser = (data) => {
 
 const validateEditUser = (data) => {
   const schema = Joi.object({
+    id: Joi.objectId().required(),
     username: Joi.string().required(),
     password: Joi.string().required(),
     role: Joi.number(),
+    isActive: Joi.bool().required(),
     avatar: Joi.string(),
   });
   return schema.validate(data);
