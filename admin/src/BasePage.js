@@ -1,11 +1,7 @@
 import { Redirect, Switch, Route } from "react-router-dom";
 import { Layout } from "@Template/layout/Layout";
 
-import HomePage from "@Pages/Home/HomePage";
-
-// Auth
-import Register from "@Pages/Auth/Register/index";
-import Login from "@Pages/Auth/Login/index";
+import { Dashboard } from "@Modules/Dashboard";
 
 // Role
 import RolesList from "@Modules/Roles/roles-list";
@@ -37,14 +33,11 @@ const BasePage = () => {
   return (
     <Layout>
       <Switch>
-        {/* {
-        <Redirect exact from="/" to="/" />
-      } */}
-        <Route path="/" component={HomePage} exact />
-
-        {/* Auth */}
-        <Route path="/Register" component={Register} exact />
-        <Route path="/Login" component={Login} exact />
+        {
+          // Redirect from root URL to /dashboard.
+          <Redirect exact from="/" to="/dashboard" />
+        }
+        <Route path="/dashboard" component={Dashboard} exact />
 
         {/* Role */}
         <Route path="/Role" component={RolesList} exact />

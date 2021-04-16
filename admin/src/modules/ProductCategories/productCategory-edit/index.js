@@ -116,8 +116,9 @@ export function ProductCategoryEdit({
                 type="submit"
                 className="btn btn-primary"
                 onClick={saveProductCategoryClick}
+                disabled={actionsLoading}
               >
-                Save Changes
+                {actionsLoading ? "Please wait..." : "Save Changes"}
               </button>
             </Card.Footer>
           </Card>

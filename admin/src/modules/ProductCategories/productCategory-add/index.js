@@ -86,8 +86,9 @@ export function ProductCategoryAdd({ history }) {
                 type="submit"
                 className="btn btn-primary"
                 onClick={saveProductCategoryClick}
+                disabled={actionsLoading}
               >
-                Add ProductCategory
+                {actionsLoading ? "Please wait..." : "Add ProductCategory"}
               </button>
             </Card.Footer>
           </Card>

@@ -100,8 +100,9 @@ export function RoleEdit({
                 type="submit"
                 className="btn btn-primary"
                 onClick={saveRoleClick}
+                disabled={actionsLoading}
               >
-                Save Changes
+                {actionsLoading ? "Please wait..." : "Save Changes"}
               </button>
             </Card.Footer>
           </Card>

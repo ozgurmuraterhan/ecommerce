@@ -71,8 +71,9 @@ export function RoleAdd({ history }) {
                 type="submit"
                 className="btn btn-primary"
                 onClick={saveRoleClick}
+                disabled={actionsLoading}
               >
-                Add Role
+                {actionsLoading ? "Please wait..." : "Add Role"}
               </button>
             </Card.Footer>
           </Card>

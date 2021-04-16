@@ -93,8 +93,9 @@ export function UserAdd({ history }) {
                 type="submit"
                 className="btn btn-primary"
                 onClick={saveUserClick}
+                disabled={actionsLoading}
               >
-                Add User
+                {actionsLoading ? "Please wait..." : "Add User"}
               </button>
             </Card.Footer>
           </Card>

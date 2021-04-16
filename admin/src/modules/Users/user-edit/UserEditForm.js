@@ -66,6 +66,7 @@ export const UserEditForm = ({ roles, user, btnRef, saveUser }) => {
           status,
           touched,
           handleBlur,
+          isSubmitting,
         }) => (
           <Form className="form form-label-right">
             <Row>
@@ -175,6 +176,7 @@ export const UserEditForm = ({ roles, user, btnRef, saveUser }) => {
               style={{ display: "none" }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
+              disabled={isSubmitting}
             ></button>
           </Form>
         )}

@@ -54,6 +54,7 @@ export const UserAddForm = ({ roles, btnRef, saveUser }) => {
           status,
           touched,
           handleBlur,
+          isSubmitting,
         }) => (
           <Form className="form form-label-right">
             <Row className="mt-3">
@@ -151,6 +152,7 @@ export const UserAddForm = ({ roles, btnRef, saveUser }) => {
               style={{ display: "none" }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
+              disabled={isSubmitting}
             ></button>
           </Form>
         )}

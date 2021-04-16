@@ -23,7 +23,7 @@ export const reducer = persistReducer(
       case actionTypes.Login: {
         const { data } = action.payload;
 
-        return { user: data, authToken: data.accessToken };
+        return { user: data.user, authToken: data.accessToken };
       }
 
       // case actionTypes.Register: {

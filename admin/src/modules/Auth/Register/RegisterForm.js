@@ -11,18 +11,18 @@ import {
 } from "@Helpers/Formik";
 import Thumb from "@Helpers/Images/ImageUpload/Thumb";
 
-export const RoleAddForm = ({ btnRef, saveRole }) => {
+export const RegisterForm = ({ btnRef, login }) => {
   const InitialValues = {
-    name: "",
-    description: "",
+    username: "",
+    password: "",
   };
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
+    username: Yup.string()
       .min(3, "minimum 3 character")
       .max(100, "maximum 100 character")
       .required("this field is required"),
-    description: Yup.string()
+    password: Yup.string()
       .min(3, "minimum 3 character")
       .max(100, "maximum 100 character")
       .required("this field is required"),
@@ -35,7 +35,7 @@ export const RoleAddForm = ({ btnRef, saveRole }) => {
         initialValues={InitialValues}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          saveRole(values);
+          login(values);
         }}
       >
         {({
@@ -54,8 +54,8 @@ export const RoleAddForm = ({ btnRef, saveRole }) => {
             <Row className="mt-3">
               <Col>
                 <InputText
-                  name="name"
-                  label="Name"
+                  name="username"
+                  label="Username"
                   touched={touched}
                   errors={errors}
                 />
@@ -64,13 +64,11 @@ export const RoleAddForm = ({ btnRef, saveRole }) => {
 
             <Row className="mt-3">
               <Col>
-                <InputTextArea
-                  name="description"
-                  label="Description"
+                <InputText
+                  name="password"
+                  label="Password"
                   touched={touched}
                   errors={errors}
-                  rows={3}
-                  cols={10}
                 />
               </Col>
             </Row>

@@ -4,6 +4,7 @@
   "ROLES_URL": "http://localhost:8000/api/v1/Role",
   "USERS_URL": "http://localhost:8000/api/v1/User",
   "LOGIN_URL": "http://localhost:8000/api/v1/Login",
+  "REGISTER_URL": "http://localhost:8000/api/v1/Register",
   "PRODUCTCATEGORIES_URL": "http://localhost:8000/api/v1/ProductCategory",
   "PRODUCTS_URL": "http://localhost:8000/api/v1/Product"
 }

@@ -32,7 +32,13 @@ export const TopNavbar = () => {
             </Nav.Link>
           </Link>
 
-          <NavDropdown title="username" id="collasible-nav-dropdown">
+          <Link to="/Logout">
+            <Nav.Link eventKey={2} href="/Logout">
+              Logout
+            </Nav.Link>
+          </Link>
+
+          <NavDropdown title="username" id="collapsible-nav-dropdown">
             <NavDropdown.Item href="/Profile/id">Profile</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="/Logout">Exit</NavDropdown.Item>

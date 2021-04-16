@@ -68,6 +68,7 @@ export const ProductCategoryEditForm = ({
           status,
           touched,
           handleBlur,
+          isSubmitting,
         }) => (
           <Form className="form form-label-right">
             <Row>
@@ -181,6 +182,7 @@ export const ProductCategoryEditForm = ({
               style={{ display: "none" }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
+              disabled={isSubmitting}
             ></button>
           </Form>
         )}

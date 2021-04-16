@@ -15,7 +15,7 @@ const initialValues = {
   password: "",
 };
 
-function Login(props) {
+export function Login(props) {
   const { intl } = props;
   const [loading, setLoading] = useState(false);
   const LoginSchema = Yup.object().shape({

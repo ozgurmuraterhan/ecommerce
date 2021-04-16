@@ -53,7 +53,7 @@ const register = async (req, res, next) => {
         user: {
           username: username,
         },
-        token: token,
+        accessToken: token,
       });
   } catch (error) {
     console.error(error);
@@ -94,11 +94,17 @@ const login = async (req, res, next) => {
       .header("x-auth-token", token)
       .status(200)
       .json({
-        message: "Login Successful",
-        user: {
-          username: username,
+        meta: {
+          date: Date.now(),
         },
-        token: token,
+        data: {
+          message: "Login Successful",
+          user: {
+            id: user._id,
+            username: username,
+          },
+          accessToken: token,
+        },
       });
   } catch (error) {
     console.error(error);

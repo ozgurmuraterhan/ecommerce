@@ -95,8 +95,9 @@ export function ProductAdd({ history }) {
                 type="submit"
                 className="btn btn-primary"
                 onClick={saveProductClick}
+                disabled={actionsLoading}
               >
-                Add Product
+                {actionsLoading ? "Please wait..." : "Add Product"}
               </button>
             </Card.Footer>
           </Card>

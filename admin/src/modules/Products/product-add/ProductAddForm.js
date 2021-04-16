@@ -62,6 +62,7 @@ export const ProductAddForm = ({ productCategories, btnRef, saveProduct }) => {
           status,
           touched,
           handleBlur,
+          isSubmitting,
         }) => (
           <Form className="form form-label-right">
             <Row className="mt-3">
@@ -187,6 +188,7 @@ export const ProductAddForm = ({ productCategories, btnRef, saveProduct }) => {
               style={{ display: "none" }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
+              disabled={isSubmitting}
             ></button>
           </Form>
         )}
