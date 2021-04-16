@@ -1,19 +1,24 @@
+require("dotenv").config();
+const jwtPrivateKey = process.env.jwtPrivateKey;
 const jwt = require("jsonwebtoken");
-const config = require("config");
-module.exports = function (req, res, next) {
-  const token = req.header("x-auth-token");
-  if (!token)
-    return res
-      .status(401)
-      .json({ message: "شما اجازه دسترسی به این دیتا را ندارید" });
 
-  try {
-    const decoded = jwt.verify(token, config.get("jwtPrivateKey"));
-    req.userData = decoded;
-    next();
-  } catch (ex) {
-    return res
-      .status(401)
-      .json({ message: "شما اجازه دسترسی به این دیتا را ندارید" });
+const authenticateJWT = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (authHeader) {
+    const token = authHeader.split(" ")[1];
+
+    jwt.verify(token, jwtPrivateKey, (err, user) => {
+      if (err) {
+        return res.status(403).json({ message: "Your haven't allowed role!" });
+      }
+
+      req.user = user;
+      next();
+    });
+  } else {
+    return res.status(401).json({ message: "You are not authenticated!" });
   }
 };
+
+module.exports = authenticateJWT;

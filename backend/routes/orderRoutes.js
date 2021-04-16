@@ -1,5 +1,6 @@
 const router = require("express").Router();
 
+const isAuth = require("../shared/middleware/check-auth");
 const orderController = require("../controllers/orderController");
 
 //@desc   GET all orders from db
@@ -14,17 +15,17 @@ router.get("/:id", orderController.getOrderById);
 
 //@desc   POST a order to db
 //@route  POST /api/v1/order
-//@access Admin, OrdersManager
+//@access Public
 router.post("/", orderController.addOrder);
 
 //@desc   PUT(edit) a order from db
 //@route  PUT(edit) /api/v1/order/:id
 //@access Admin, OrdersManager
-router.put("/:id", orderController.editOrder);
+router.put("/:id", [isAuth], orderController.editOrder);
 
 //@desc   DELETE a order by id from db
 //@route  DELETE /api/v1/order/:id
-//@access Admin
-router.delete("/:id", orderController.deleteOrder);
+//@access Admin,OrdersManager
+router.delete("/:id", [isAuth], orderController.deleteOrder);
 
 module.exports = router;

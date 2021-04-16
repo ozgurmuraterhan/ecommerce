@@ -2,6 +2,7 @@ const path = require("path");
 const router = require("express").Router();
 const multer = require("multer");
 
+const isAuth = require("../shared/middleware/check-auth");
 const productCategoryController = require("../controllers/productCategoryController");
 
 const storage = multer.diskStorage({
@@ -40,13 +41,21 @@ router.get("/:id", productCategoryController.getProductCategoryById);
 
 //@desc   POST a productCategory to db
 //@route  POST /api/v1/productCategory
-//@access Admin, ProductCategoriesManager
-router.post("/", upload, productCategoryController.addProductCategory);
+//@access Admin, ProductsManager
+router.post(
+  "/",
+  [isAuth, upload],
+  productCategoryController.addProductCategory
+);
 
 //@desc   PUT(edit) a productCategory from db
 //@route  PUT(edit) /api/v1/productCategory/:id
-//@access Admin, ProductCategoriesManager
-router.put("/", upload, productCategoryController.editProductCategory);
+//@access Admin, ProductsManager
+router.put(
+  "/",
+  [isAuth, upload],
+  productCategoryController.editProductCategory
+);
 
 //@desc   DELETE a productCategory by id from db
 //@route  DELETE /api/v1/productCategory/:id

@@ -2,8 +2,7 @@ const path = require("path");
 const router = require("express").Router();
 const multer = require("multer");
 
-const checkAuth = require("../shared/middleware/check-auth");
-
+const isAuth = require("../shared/middleware/check-auth");
 const authController = require("../controllers/authController");
 const userController = require("../controllers/userController");
 
@@ -31,15 +30,14 @@ const upload = multer({
   },
 }).single("avatar");
 
-router.get("/", userController.getUsers);
+router.get("/", [isAuth], userController.getUsers);
 
 router.get("/:id", userController.getUserById);
 
-// router.post("/", [upload, checkAuth], userController.addUser);
-router.post("/", upload, userController.addUser);
+router.post("/", [isAuth, upload], userController.addUser);
 
-router.put("/", upload, userController.editUser);
+router.put("/", [isAuth, upload], userController.editUser);
 
-router.delete("/:id", userController.deleteUser);
+router.delete("/:id", [isAuth], userController.deleteUser);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 
+const isAuth = require("../shared/middleware/check-auth");
 const roleController = require("../controllers/roleController");
 
 //@desc   GET all roles from db
@@ -15,12 +16,12 @@ router.get("/:id", roleController.getRoleById);
 //@desc   POST a role to db
 //@route  POST /api/v1/role
 //@access Admin, RolesManager
-router.post("/", roleController.addRole);
+router.post("/", [isAuth], roleController.addRole);
 
 //@desc   PUT(edit) a role from db
 //@route  PUT(edit) /api/v1/role/:id
 //@access Admin, RolesManager
-router.put("/", roleController.editRole);
+router.put("/", [isAuth], roleController.editRole);
 
 //@desc   DELETE a role by id from db
 //@route  DELETE /api/v1/role/:id
